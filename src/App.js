@@ -1,14 +1,76 @@
 /* src/App.js */
+import React, { Component } from 'react'
+import { API_URL } from './config'
+import Loading from './Loading'
+import Content from './Content'
+import { Auth } from '@aws-amplify/auth'
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+
+class App extends Component {
+
+  // initialize
+  state = {
+    loading: true
+  }
+
+  // APIサーバの起動確認
+  componentDidMount() {
+    fetch(`${API_URL}/wake-up`)
+      .then(res => {
+        if (res.ok) {
+          this.setState({ loading: false })
+          console.log('server is wake up')
+          test()
+        }
+      })
+    async function test(){
+      try {
+        const user = await Auth.currentAuthenticatedUser();
+        console.log(user.username)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+  }
+
+  render () {
+    return (
+      <div style={styles.container}>
+        {this.state.loading
+          ? <Loading />
+          : <div>
+              <AmplifySignOut />
+              <Content />
+            </div>
+        }
+      </div>  
+    )
+  }
+}
+
+const styles = {
+  /*
+  phoneContainer: { width: 300, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
+  container: { width: 400, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
+  todo: {  marginBottom: 15 },
+  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
+  todoName: { fontSize: 20, fontWeight: 'bold' },
+  todoDescription: { marginBottom: 0 },
+  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
+  */
+}
+
+/*
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
 import { listTodos } from './graphql/queries'
-import { withAuthenticator } from '@aws-amplify/ui-react'
 import MediaQuery from "react-responsive"
 
-const initialState = { name: '', description: '' }
+// const initialState = { name: '', description: '' }
+*/
 
-const App = () => {
+  /*
   const [formState, setFormState] = useState(initialState)
   const [todos, setTodos] = useState([])
 
@@ -39,9 +101,9 @@ const App = () => {
       console.log('error creating todo:', err)
     }
   }
+  */
 
-  return (
-    <div>
+      /*
       <MediaQuery query="(max-width: 767px)">
         <div style={styles.phoneContainer}>
           <h2>Amplify Todos</h2>
@@ -94,19 +156,6 @@ const App = () => {
           }
         </div>
       </MediaQuery>
-    </div>
-  )
-}
-
-const styles = {
-  phoneContainer: { width: 300, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  container: { width: 400, margin: '0 auto', display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
-
+      */
 
 export default withAuthenticator(App)

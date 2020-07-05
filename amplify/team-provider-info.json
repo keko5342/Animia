@@ -12,9 +12,6 @@
             "AmplifyAppId": "da1sjddf4h4dx"
         },
         "categories": {
-            "auth": {
-                "reactamplifiede53545ae": {}
-            },
             "hosting": {
                 "amplifyhosting": {
                     "appId": "da1sjddf4h4dx",

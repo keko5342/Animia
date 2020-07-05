@@ -1,5 +1,7 @@
 # 使用パッケージ
 - gitsecrets
+- react-responsive(https://qiita.com/computer-penguin/items/ebe033d5f93cf9571f3c)
+- react-router(https://qiita.com/y_kawase/items/8f1b5a303400a09c4923)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
