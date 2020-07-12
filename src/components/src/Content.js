@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Requester from './Requester'
-const titles = ['profile', 'timeline']
+const titles = ['login', 'logout', 'profile', 'timeline']
 
 export default class Content extends Component {
   render() {

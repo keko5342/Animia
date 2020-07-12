@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { API_URL } from './config'
+import { API_URL } from '../../config'
+import { Auth } from '@aws-amplify/auth'
 
 export default class Requester extends Component {
   startReq = () => {
     const { title } = this.props
     console.log('button pushed!')
-    fetch(`${API_URL}/${title}sample`)
+    if(title === "login"){
+      this.auth0()
+      //console.log("test")
+    }else{
+      fetch(`${API_URL}/${title}sample`)
       .then(res => {
         return res.json();
       })
       .then(myJson => {
         console.log(JSON.stringify(myJson));
       });
+    }
+  }
+
+  async auth0(){
+    await Auth.federatedSignIn({provider: 'Auth0'})
   }
 
   render() {
