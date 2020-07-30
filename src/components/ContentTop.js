@@ -1,14 +1,15 @@
 import React from 'react';
+import MainContent from './MainContent';
 import CustomSignIn from './CustomSignIn';
 import useLoginStatus from '../functions/useLoginStatus';
 
-const Content = () => {
+const ContentTop = () => {
   const isLogin = useLoginStatus();
   return(
     <div>
-      {isLogin ? <div>true</div> : <CustomSignIn />}
+      {isLogin ? <MainContent /> : <CustomSignIn />}
     </div>
   )
 }
 
-export default Content;
+export default ContentTop;

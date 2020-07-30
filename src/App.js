@@ -1,14 +1,14 @@
 /* src/App.js */
 import React from 'react';
 import Loading from './components/Loading';
-import Content from './components/Content';
+import ContentTop from './components/ContentTop';
 import useServerStatus from './functions/useServerStatus';
 
 const App = () => {
   const isOnline = useServerStatus();
   return (
     <div>
-      {isOnline ? <Content /> : <Loading />}
+      {isOnline ? <ContentTop /> : <Loading />}
     </div>
   )
 }
