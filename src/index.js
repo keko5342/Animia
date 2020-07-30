@@ -3,19 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Amplify from "aws-amplify";
-import awsExports from "./aws-exports";
-import { Auth0Provider } from "@auth0/auth0-react";
-Amplify.configure(awsExports);
 
 ReactDOM.render(
-  <Auth0Provider
-    domain="animia.us.auth0.com"
-    clientId="B7NH7Q3E6HO38a9H2FW2OsKJMfKr06k0"
-    redirectUri={window.location.origin}
-  >
-    <App />
-  </Auth0Provider>,
+  <App />,
   document.getElementById('root')
 );
 
