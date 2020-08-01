@@ -11,7 +11,7 @@ export default function useServerStatus(){
           setIsOnline(true);
         }
       })
-  });
+  }, []);
 
   return isOnline;
 }

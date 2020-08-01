@@ -10,10 +10,9 @@ export default function useLoginStatus(){
       fetch(`${API_URL}/callback${qs}`)
         .then(res => {
           setIsLogin(true);
-          console.log('driven');
         })
     }
-  });
+  }, []);
 
   return isLogin;
 }
