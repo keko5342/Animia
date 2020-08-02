@@ -1,5 +1,5 @@
 import React from 'react';
-import useListName from '../../functions/useListName';
+import useListName from '../../../functions/useListName';
 import styled from 'styled-components';
 
 const ListNameButtons = () => {
