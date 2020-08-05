@@ -1,16 +1,18 @@
 import React from 'react';
 import ListNameButtons from './ListNameButtons';
-import { UsersListContainer, UsersListHeader, ListNameButtonContainer } from './Styles';
+import { UsersListContainer, UsersListHeader, ListNameButtonContainer, Half } from './Styles';
 
-const UsersList = () => {
-  return (
-    <UsersListContainer>
-      <UsersListHeader>Your List</UsersListHeader>
-      <ListNameButtonContainer>
-        <ListNameButtons />
-      </ListNameButtonContainer>
-    </UsersListContainer>
-  )
-}
+class UsersList extends React.Component {
+  render() {
+    return (
+      <UsersListContainer>
+        <UsersListHeader>Your List</UsersListHeader>
+        <ListNameButtonContainer>
+          <ListNameButtons />
+        </ListNameButtonContainer>
+      </UsersListContainer>
+    )  
+  }
+ }
 
 export default UsersList;

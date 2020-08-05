@@ -9,7 +9,6 @@ export default function useListName() {
       const qs = window.location.hash.replace('#', '?');
       fetch(`${API_URL}/auth/listName/${qs}`)
         .then(res => res.json().then(data => {
-          //console.log(data);
           setListName(data);
         }))
     }

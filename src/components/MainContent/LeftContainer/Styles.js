@@ -39,8 +39,32 @@ export const UsersListContainer = styled.div`
 export const UsersListHeader = styled.div`
   border-bottom: solid;
   border-width: 1px;
+  display: flex;
+  flex-direction: column;
 `;
 export const ListNameButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  height: 40vh;
+`;
+
+export const ListNameButton = styled.button`
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  height: 4vh;
+  align-items: center;
+`;
+
+export const UserNameButton = styled.button`
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  align-items: center;
+`;
+
+export const Half = styled.div`
+  display: flex;
+  flex: 1;
 `;
