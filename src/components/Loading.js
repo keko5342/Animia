@@ -1,12 +1,21 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
+import { CircularProgress } from '@material-ui/core';
 
-export default () =>
-  <div className='loading-wrapper fadein-slow'>
-    <h4>Sorry! Server is offline.</h4>
-    <div className='loading'>
-      <div className='background'>
-        <i className='icon-heroku'></i>
-      </div>
-      <div className='spinner' />
-    </div>
-  </div>
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const Loading = () => {
+  return (
+    <Container>
+      <CircularProgress size={80} />
+    </Container>
+  )
+}
+export default Loading;

@@ -7,9 +7,12 @@ export default function useLoginStatus(){
   useEffect(() => {
     if(window.location.hash){
       const qs = window.location.hash.replace('#', '?');
+      //var hashString = window.location.hash.substr(1);
+      //console.log('hash', hashString);
+      //window.history.replaceState('', document.title, window.location.pathname);
       fetch(`${API_URL}/callback${qs}`, {credentials: "include"})
         .then(res => {
-          console.log(res);
+          //console.log(res);
           setIsLogin(true);
         })
     }

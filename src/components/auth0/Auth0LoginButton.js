@@ -5,7 +5,7 @@ import Amplify, { Auth } from "aws-amplify";
 Amplify.configure(awsconfig);
 
 async function login(){
-  await Auth.federatedSignIn({provider: 'Auth0', token: 'code'});
+  await Auth.federatedSignIn({provider: 'Auth0'});
 }
 
 const Auth0LoginButton = () => {
