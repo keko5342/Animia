@@ -5,7 +5,7 @@ import Amplify from "aws-amplify";
 Amplify.configure(awsconfig);
 
 async function fetch(){
-  //fetch(`${API_URL}/callback${qs}`)
+
 }
 
 const Auth0UserFetch = () => {

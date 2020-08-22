@@ -3,6 +3,15 @@ import useListName from '../../../functions/useListName';
 import { useState, useEffect } from 'react';
 import { API_URL } from '../../../config';
 import { ListNameButton, UserNameButton } from './Styles';
+import awsconfig from '../../../aws-exports';
+import Amplify, { Auth } from "aws-amplify";
+Amplify.configure(awsconfig);
+
+async function authInfo(){
+  var user = await Auth.currentAuthenticatedUser();
+  var jwt = user.signInUserSession.idToken.jwtToken;
+  return jwt;
+}
 
 const ListNameButtons = () => {
   const userListName = useListName();
@@ -14,22 +23,20 @@ const ListNameButtons = () => {
 
   useEffect(() => {
     if(SelectedList){
-      if(window.location.hash){
-        const qs = window.location.hash.replace('#', '?') + `&slug=${SelectedList[1]}&owner_screen_name=${SelectedList[2]}`;
-        console.log(qs);
-        fetch(`${API_URL}/auth/users/${qs}`)
-          .then(res => res.json().then(data => {
-            setUsers(data);
-            console.log(data)
-          }))
-      }
+      authInfo().then((value) => {
+        if(value){
+          fetch(`${API_URL}/auth/users?id_token=${value}&slug=${SelectedList[1]}&owner_screen_name=${SelectedList[2]}`)
+            .then(res => res.json().then(data => {
+              setUsers(data);
+            }))
+        }
+      });
     }
   }, [SelectedList])
   
   function onPress(e){
     setIsSelect(!isSelect)
     setSelectedList(userListName[e.currentTarget.value]);
-    console.log(userListName[e.currentTarget.value])
   }
 
   if(!isSelect){
@@ -66,7 +73,6 @@ const ListNameButtons = () => {
     }
   }
 
-  console.log(listButtons);
   return listButtons;
 }
 

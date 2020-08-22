@@ -1,6 +1,6 @@
 import React from 'react';
 import ListNameButtons from './ListNameButtons';
-import { UsersListContainer, UsersListHeader, ListNameButtonContainer, Half } from './Styles';
+import { UsersListContainer, UsersListHeader, ListNameButtonContainer } from './Styles';
 
 class UsersList extends React.Component {
   render() {

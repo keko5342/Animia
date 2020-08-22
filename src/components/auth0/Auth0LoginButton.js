@@ -1,8 +1,34 @@
 import React from 'react';
-import { Button } from "aws-amplify-react";
 import awsconfig from '../../aws-exports';
 import Amplify, { Auth } from "aws-amplify";
+import { Button } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import styled from 'styled-components';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 Amplify.configure(awsconfig);
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CatchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 60vh;
+`;
+
+const SignInButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 10vh;
+`;
 
 async function login(){
   await Auth.federatedSignIn({provider: 'Auth0'});
@@ -10,16 +36,23 @@ async function login(){
 
 const Auth0LoginButton = () => {
   return (
-    <div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => login()}
-      >
-        Sign In With Auth0
-      </Button>
-    </div>
+    <Container>
+      <List>
+        <ListItem>
+          <CatchContainer>
+            aaa
+          </CatchContainer>
+        </ListItem>
+        <Divider variant="middle" />
+        <ListItem>
+          <SignInButtonContainer>
+            <Button onClick={() => login()} variant="outlined" color="primary">
+              Twitterでサインイン
+            </Button>
+          </SignInButtonContainer>
+        </ListItem>
+      </List>
+    </Container>
   )
 }
 
