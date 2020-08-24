@@ -46,7 +46,7 @@ export const ListNameButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow: scroll;
-  height: 40vh;
+  height: 60vh;
 `;
 
 export const ListNameButton = styled.button`
@@ -62,6 +62,7 @@ export const UserNameButton = styled.button`
   border-bottom: solid;
   border-width: 1px;
   align-items: center;
+  height: 3vh;
 `;
 
 export const Half = styled.div`
