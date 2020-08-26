@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { FixedSizeList } from 'react-window';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { API_URL } from '../../../config';
 import awsconfig from '../../../aws-exports';
 import Amplify, { Auth } from "aws-amplify";
@@ -58,6 +61,7 @@ const ListNameButtons = () => {
     }else{
       array.push(
         <ListItem key={SelectedList}>
+          <ArrowBackIcon onClick={() => setIsSelect(!isSelect)} />
           <Button
             value={SelectedList[1]}
             onClick={() => setIsSelect(!isSelect)}
@@ -75,7 +79,7 @@ const ListNameButtons = () => {
               onClick={() => setIsSelect(!isSelect)}
               fullWidth={true}
             >
-              {Users[i][0]}(@{Users[i][1]})
+              {i}.{Users[i][0]}(@{Users[i][1]})
             </Button>
           </ListItem>
         )
@@ -90,10 +94,63 @@ const ListNameButtons = () => {
     setIsSelect(!isSelect)
     setSelectedList(userListName[e.currentTarget.value]);
   }
+  
+  // 検索窓に表示する配列を返す
+  function searchArrays(){
+    var responseArrays = [];
+    if(!isSelect){
+      for(var j=0;j<userListName.length;j++){
+        responseArrays.push(userListName[j][0]);
+      }
+    }else{
+      for(j=0;j<Users.length;j++){
+        responseArrays.push(`${Users[j][0]}(@${Users[j][1]})`);
+      }
+    }
+    responseArrays.sort(function(a, b) {
+      var nameA = a.toUpperCase(); // 大文字と小文字を無視する
+      var nameB = b.toUpperCase(); // 大文字と小文字を無視する
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+    
+      // names must be equal
+      return 0;
+    });
+
+    return responseArrays;
+  }
+
+  // 検索窓で選択があったときのコールバック
+  function searchBarCallback(e, value, reason){
+    if(!isSelect && value && reason==="reset"){
+      var listNames = [];
+      for(var j=0;j<userListName.length;j++){
+        listNames.push(userListName[j][0]);
+      }
+      if(listNames){
+        setIsSelect(!isSelect)
+        setSelectedList(userListName[listNames.indexOf(value)]);
+      }
+    }
+  }
 
   // 要レスポンシブ対応
   return (
     <div>
+      <Autocomplete
+        id="grouped-demo"
+        options={searchArrays()}
+        clearOnEscape={true}
+        groupBy={(option) => option[0].toUpperCase()}
+        style={{ width: 300 }}
+        filterSelectedOptions={true}
+        renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
+        onInputChange={(e, value, reason) => searchBarCallback(e, value, reason)}
+      />
       <FixedSizeList height={600} width={320} itemSize={46} itemCount={1}>
         {renderRow}
       </FixedSizeList>
