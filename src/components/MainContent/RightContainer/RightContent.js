@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { RightContainer } from './Styles';
 
-const RightContent = () => {
-  return (
-    <RightContainer>
-    </RightContainer>
-  )
+class RightContent extends Component {
+  render() {
+    return (
+      <RightContainer>
+      </RightContainer>
+    )
+  }
 }
 
 export default RightContent;

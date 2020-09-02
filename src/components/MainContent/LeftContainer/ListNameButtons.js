@@ -4,15 +4,36 @@ import { useState, useEffect } from 'react';
 import { FixedSizeList } from 'react-window';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { API_URL } from '../../../config';
 import awsconfig from '../../../aws-exports';
 import Amplify, { Auth } from "aws-amplify";
 Amplify.configure(awsconfig);
 
-const ListNameButtons = () => {
+const ListNameButtons = (props) => {
+  var arrays = props.arrays;
+  var renderRow = () => {
+    var array = [];
+    for(var i=0; i<arrays.length; i++){
+      array.push(
+        <ListItem key={arrays[i]}>
+          <Button value={i} name={arrays[i]} fullWidth={true}>{arrays[i]}</Button>
+        </ListItem>
+      )
+    }
+
+    return array;
+  }
+  
+  // 要レスポンシブ対応
+  return (
+    <FixedSizeList height={600} width={320} itemSize={46} itemCount={1}>
+      {renderRow}
+    </FixedSizeList>
+  );
+}
+
+  /*
   const userListName = useListName();
   const [isSelect, setIsSelect] = useState(false);
   const [SelectedList, setSelectedList] = useState();
@@ -94,8 +115,8 @@ const ListNameButtons = () => {
     setIsSelect(!isSelect)
     setSelectedList(userListName[e.currentTarget.value]);
   }
-  
-  // 検索窓に表示する配列を返す
+
+
   function searchArrays(){
     var responseArrays = [];
     if(!isSelect){
@@ -123,39 +144,5 @@ const ListNameButtons = () => {
 
     return responseArrays;
   }
-
-  // 検索窓で選択があったときのコールバック
-  function searchBarCallback(e, value, reason){
-    if(!isSelect && value && reason==="reset"){
-      var listNames = [];
-      for(var j=0;j<userListName.length;j++){
-        listNames.push(userListName[j][0]);
-      }
-      if(listNames){
-        setIsSelect(!isSelect)
-        setSelectedList(userListName[listNames.indexOf(value)]);
-      }
-    }
-  }
-
-  // 要レスポンシブ対応
-  return (
-    <div>
-      <Autocomplete
-        id="grouped-demo"
-        options={searchArrays()}
-        clearOnEscape={true}
-        groupBy={(option) => option[0].toUpperCase()}
-        style={{ width: 300 }}
-        filterSelectedOptions={true}
-        renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
-        onInputChange={(e, value, reason) => searchBarCallback(e, value, reason)}
-      />
-      <FixedSizeList height={600} width={320} itemSize={46} itemCount={1}>
-        {renderRow}
-      </FixedSizeList>
-    </div>
-  );
-}
-
+  */
 export default ListNameButtons;

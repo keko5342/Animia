@@ -11,7 +11,7 @@ async function authInfo(){
 }
 
 export default function useListName() {
-  const [listName, setListName] = useState("未取得");
+  const [listName, setListName] = useState([]);
 
   useEffect(() => {
     authInfo().then((value) => {
