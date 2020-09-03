@@ -6,14 +6,18 @@
 
 import React from 'react';
 import UserProfile from './UserProfile.js';
-//import UsersList from './UsersList.js'
 import { LeftContainer } from './Styles';
 import ListNameButtons from './ListNameButtons';
 import { UsersListContainer, UsersListHeader } from './Styles';
 import useListName from '../../../functions/useListName';
-
+import { useState, useEffect } from 'react';
+import { API_URL } from '../../../config';
+import awsconfig from '../../../aws-exports';
+import Amplify, { Auth } from "aws-amplify";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+
+Amplify.configure(awsconfig);
 
 function sortArray(array){
   array.sort(function(a, b) {
@@ -33,65 +37,83 @@ function sortArray(array){
   return array;
 }
 
+async function authInfo(){
+  var user = await Auth.currentAuthenticatedUser();
+  var jwt = user.signInUserSession.idToken.jwtToken;
+  return jwt;
+}
+
 const LeftContent = () => {
   const userListName = useListName();
-  var outputArray = sortArray(userListName.map(function(value, index) { return value[0]; }));
+  const [isSelect, setIsSelect] = useState(false);
+  const [SelectedList, setSelectedList] = useState();
+  const [Users, setUsers] = useState([]);
+  const [UserArray, setUserArray] = useState([]);
+  var searchArray = userListName.map(function(value, index) { return value[0]; })
+  var listArray = sortArray(userListName.map(function(value, index) { return value[0]; }));
+
+  // リストが選択されると、APIサーバにリスト内ユーザをリクエストする
+  useEffect(() => {
+    if(SelectedList){
+      authInfo().then((value) => {
+        if(value){
+          fetch(`${API_URL}/auth/users?id_token=${value}&slug=${SelectedList[1]}&owner_screen_name=${SelectedList[2]}`)
+            .then(res => res.json().then(data => {
+              var test = sortArray(data.map(function(value, index) { return `${value[0]}(@${value[1]})`; }))
+              test.unshift(SelectedList[0])
+              setUserArray(test)
+              setUsers(data);
+            }))
+        }
+      });
+    }
+  }, [SelectedList])
+
+  // コンボボックスのボタンが押されたときのアクション
+  function onClickAutoCompleteCallback(e, value, reason){
+    if(value && reason==="reset"){
+      setIsSelect(!isSelect)
+      setSelectedList(userListName[searchArray.indexOf(value)]);
+    }
+  }
+
+  // リストのボタンが押されたときのアクション
+  function onClickListNameButtonCallback(e){
+    setIsSelect(!isSelect)
+    setSelectedList(userListName[searchArray.indexOf(listArray[e.currentTarget.value])]);
+  }
 
   return (
     <LeftContainer>
       <UserProfile />
       <Autocomplete
-        options={outputArray}
+        id="searchBox"
+        options={
+          isSelect 
+          ? UserArray
+          : listArray
+        }
+        clearOnEscape={true}
         style={{ margin: 5 }}
+        groupBy={(option) => option[0].toUpperCase()}
         renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
+        onInputChange={(e, value, reason) => onClickAutoCompleteCallback(e, value, reason)}
       />
+      
       <UsersListContainer>
         <UsersListHeader>Your List</UsersListHeader>
-        <ListNameButtons arrays={outputArray} />
+        <ListNameButtons
+          arrays={
+            isSelect 
+            ? UserArray
+            : listArray
+          }
+          onListNameButtonChange={onClickListNameButtonCallback}
+          listSelected={isSelect}
+        />
       </UsersListContainer>
     </LeftContainer>
   )
 }
-
-
-
-  /*
-  
-  // コンボボックスで表示する配列を取得
-  getSearchArrays(){
-    await this.setState({
-      searchArray: this.refs.ListArray.getArray()
-    });
-   this.refs.MyCom.getCount()
-   //return this.state.searchArray;
-   return ['t', 'e', 's', 't']
- }
-
-  // 検索窓で選択があったときのコールバック
-  searchBarCallback(e, value, reason){
-    if(!isSelect && value && reason==="reset"){
-      var listNames = [];
-      for(var j=0;j<userListName.length;j++){
-        listNames.push(userListName[j][0]);
-      }
-      if(listNames){
-        setIsSelect(!isSelect)
-        setSelectedList(userListName[listNames.indexOf(value)]);
-      }
-    }
-  }
-  */
-
-        /*
-        <Autocomplete
-          id="grouped-demo"
-          options={searchArrays()}
-          clearOnEscape={true}
-          groupBy={(option) => option[0].toUpperCase()}
-          filterSelectedOptions={true}
-          renderInput={(params) => <TextField {...params} label="Search" variant="outlined" />}
-          onInputChange={(e, value, reason) => searchBarCallback(e, value, reason)}
-        />
-        */
 
 export default LeftContent;
