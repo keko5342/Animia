@@ -1,17 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LeftContent from './LeftContainer/LeftContent';
 import RightContent from './RightContainer/RightContent';
 import styled from 'styled-components';
 
-class MainContent extends Component{
-  render() {
-    return (
-      <Container>
-        <LeftContent />
-        <RightContent />
-      </Container>
-    )
+const MainContent = () =>{
+  const [SelectedUser, setSelectedUser] = useState()
+  const ResultComponent = useRef();
+
+  useEffect(() => {
+    ResultComponent.current.test()
+  }, [SelectedUser])
+
+  function onClickUserCallback(user){
+    setSelectedUser(user)
   }
+
+  return (
+    <Container>
+      <LeftContent onClickUser={onClickUserCallback} />
+      <RightContent ref={ResultComponent} User={SelectedUser} />
+    </Container>
+  )
 }
 
 const Container = styled.div`

@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { RightContainer } from './Styles';
 
-class RightContent extends Component {
-  render() {
-    return (
-      <RightContainer>
-      </RightContainer>
-    )
-  }
-}
+const RightContent = forwardRef((props, ref) => {
+
+  useImperativeHandle(ref, () => ({
+    test() {
+      if(props.User) console.log(props.User)
+    }
+  }));
+
+  return (
+    <RightContainer>
+    </RightContainer>
+  )
+});
 
 export default RightContent;

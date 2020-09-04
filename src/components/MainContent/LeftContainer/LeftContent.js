@@ -43,12 +43,14 @@ async function authInfo(){
   return jwt;
 }
 
-const LeftContent = () => {
+const LeftContent = (props) => {
   const userListName = useListName();
   const [isSelect, setIsSelect] = useState(false);
   const [SelectedList, setSelectedList] = useState();
   const [Users, setUsers] = useState([]);
   const [UserArray, setUserArray] = useState([]);
+
+  // ここかえる
   var searchArray = userListName.map(function(value, index) { return value[0]; })
   var listArray = sortArray(userListName.map(function(value, index) { return value[0]; }));
 
@@ -59,9 +61,9 @@ const LeftContent = () => {
         if(value){
           fetch(`${API_URL}/auth/users?id_token=${value}&slug=${SelectedList[1]}&owner_screen_name=${SelectedList[2]}`)
             .then(res => res.json().then(data => {
-              var test = sortArray(data.map(function(value, index) { return `${value[0]}(@${value[1]})`; }))
-              test.unshift(SelectedList[0])
-              setUserArray(test)
+              var userArray = sortArray(data.map(function(value, index) { return `${value[0]}(@${value[1]})`; }))
+              userArray.unshift(SelectedList[0])
+              setUserArray(userArray)
               setUsers(data);
             }))
         }
@@ -72,8 +74,17 @@ const LeftContent = () => {
   // コンボボックスのボタンが押されたときのアクション
   function onClickAutoCompleteCallback(e, value, reason){
     if(value && reason==="reset"){
-      setIsSelect(!isSelect)
-      setSelectedList(userListName[searchArray.indexOf(value)]);
+      if(isSelect && value !== SelectedList[0]){
+        var array = Users.map(function(value, index) { return value[1]; })
+        props.onClickUser(
+          Users[array.indexOf(
+            value.substring(value.lastIndexOf("(") + 2, value.lastIndexOf(")"))
+          )]
+        )
+      }else{
+        setIsSelect(!isSelect)
+        setSelectedList(userListName[searchArray.indexOf(value)]);
+      }
     }
   }
 
@@ -81,6 +92,18 @@ const LeftContent = () => {
   function onClickListNameButtonCallback(e){
     setIsSelect(!isSelect)
     setSelectedList(userListName[searchArray.indexOf(listArray[e.currentTarget.value])]);
+  }
+
+  function onClickListNameButtonUsersCallback(e){
+    var array = Users.map(function(value, index) { return value[1]; })
+    props.onClickUser(
+      Users[array.indexOf(
+        UserArray[e.currentTarget.value].substring(
+          UserArray[e.currentTarget.value].lastIndexOf("(") + 2, 
+          UserArray[e.currentTarget.value].lastIndexOf(")")
+        )
+      )]
+    )
   }
 
   return (
@@ -109,6 +132,7 @@ const LeftContent = () => {
             : listArray
           }
           onListNameButtonChange={onClickListNameButtonCallback}
+          onListNameButtonUsersChange={onClickListNameButtonUsersCallback}
           listSelected={isSelect}
         />
       </UsersListContainer>

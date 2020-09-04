@@ -10,16 +10,27 @@ const ListNameButtons = (props) => {
   const Row = ({ index, style }) => {
     var row = []
 
-    if(props.listSelected && index===0){
-      row = (
-        <ListItem key={arrays[index]} style={style}>
-          <ArrowBackIcon onClick={(e) => props.onListNameButtonChange(e)} />
-          <Button value={index} name={arrays[index]} fullWidth={true}
-            onClick={(e) => props.onListNameButtonChange(e)}>
-            {arrays[index]}
-          </Button>
-        </ListItem>
-      )
+    if(props.listSelected){
+      if(index===0){
+        row = (
+          <ListItem key={arrays[index]} style={style}>
+            <ArrowBackIcon onClick={(e) => props.onListNameButtonChange(e)} />
+            <Button value={index} name={arrays[index]} fullWidth={true}
+              onClick={(e) => props.onListNameButtonChange(e)}>
+              {arrays[index]}
+            </Button>
+          </ListItem>
+        )
+      }else{
+        row = (
+          <ListItem key={arrays[index]} style={style}>
+            <Button value={index} name={arrays[index]} fullWidth={true}
+              onClick={(e) => props.onListNameButtonUsersChange(e)}>
+              {arrays[index]}
+            </Button>
+          </ListItem>
+        )
+      }
     }else{
       row = (
         <ListItem key={arrays[index]} style={style}>
@@ -41,18 +52,5 @@ const ListNameButtons = (props) => {
     </FixedSizeList>
   );
 }
-
-/*
-<ListItem key={SelectedList}>
-  <ArrowBackIcon onClick={() => setIsSelect(!isSelect)} />
-  <Button
-    value={SelectedList[1]}
-    onClick={() => setIsSelect(!isSelect)}
-    fullWidth={true}
-  >
-    {SelectedList[0]}
-  </Button>
-</ListItem>
-*/
 
 export default ListNameButtons;
