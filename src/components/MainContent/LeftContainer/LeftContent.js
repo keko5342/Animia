@@ -134,6 +134,7 @@ const LeftContent = (props) => {
           onListNameButtonChange={onClickListNameButtonCallback}
           onListNameButtonUsersChange={onClickListNameButtonUsersCallback}
           listSelected={isSelect}
+          User={props.User}
         />
       </UsersListContainer>
     </LeftContainer>

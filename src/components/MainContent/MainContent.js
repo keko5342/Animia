@@ -17,7 +17,7 @@ const MainContent = () =>{
 
   return (
     <Container>
-      <LeftContent onClickUser={onClickUserCallback} />
+      <LeftContent onClickUser={onClickUserCallback} User={SelectedUser} />
       <RightContent ref={ResultComponent} User={SelectedUser} />
     </Container>
   )
@@ -27,6 +27,7 @@ const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 `;
 
 export default MainContent;

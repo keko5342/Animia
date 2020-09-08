@@ -1,7 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { RightContainer } from './Styles';
+import { RightContainer, NullContainer } from './Styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardMedia, Button, CircularProgress } from '@material-ui/core';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 import { API_URL } from '../../../config';
 import awsconfig from '../../../aws-exports';
 import Amplify, { Auth } from "aws-amplify";
@@ -9,11 +10,18 @@ Amplify.configure(awsconfig);
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: "100%",
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
   },
-  media: {
-    height: 140,
+  gridList: {
+    width: "auto",
+    height: "100%",
   },
+  tileClass: {
+    maxHeight: "100%",
+  }
 });
 
 async function authInfo(){
@@ -24,7 +32,7 @@ async function authInfo(){
 
 const RightContent = forwardRef((props, ref) => {
   const classes = useStyles();
-  const [Url, setUrl] = useState()
+  const [Url, setUrl] = useState([])
 
   useImperativeHandle(ref, () => ({
     test() {
@@ -43,35 +51,29 @@ const RightContent = forwardRef((props, ref) => {
     }
   }));
 
-  const test = () => {
-    var images = [];
-  
-    for(var i=0; i<Url.length; i++){
-      images.push(
-        <Card className={classes.root} key={Url[i]}>
-          {
-            Url
-            ? <CardMedia className={classes.media} image={Url[i]}></CardMedia>
-            : <Button>tests</Button>
-          }
-        </Card>
-      )
-    }
-  
-    return images;
-  }
-//    {
-//      Url
-//      ? <CardMedia className={classes.media} image={Url[0]}></CardMedia>
-//      : <Button>tests</Button>
-//    }
-
   return (
     <RightContainer>
       {
-        Url
-        ? test()
-        : <CircularProgress></CircularProgress>
+        (() => {
+          if(Url.length > 0){
+            return(
+              <GridList cellHeight={"25%"} className={classes.gridList}  rows={1} cols={1}>
+                {Url.map((url) => (
+                  <GridListTile classes={{root: classes.tileClass}} key={url} cols={1}>
+                    <img src={url} alt={url} />
+                  </GridListTile>
+                ))}
+              </GridList>    
+            )
+          }else{
+            return <NullContainer>
+                      まだユーザが選択されていない<br />
+                      もしくはユーザが最近画像を投稿していません
+                      <br /><br />
+                      ユーザを選択してください
+                    </NullContainer>
+          }
+        })()
       }
     </RightContainer>
   )

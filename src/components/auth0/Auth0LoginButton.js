@@ -40,7 +40,7 @@ const Auth0LoginButton = () => {
       <List>
         <ListItem>
           <CatchContainer>
-            aaa
+            Twitterリスト整理ツール『Animia』プレビュー
           </CatchContainer>
         </ListItem>
         <Divider variant="middle" />

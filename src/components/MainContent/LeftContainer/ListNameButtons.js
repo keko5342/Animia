@@ -22,14 +22,37 @@ const ListNameButtons = (props) => {
           </ListItem>
         )
       }else{
-        row = (
-          <ListItem key={arrays[index]} style={style}>
-            <Button value={index} name={arrays[index]} fullWidth={true}
-              onClick={(e) => props.onListNameButtonUsersChange(e)}>
-              {arrays[index]}
-            </Button>
-          </ListItem>
-        )
+        if(props.User){
+          var str = String(`${props.User[0]}(@${props.User[1]})`)
+          if(str === arrays[index]){
+            row = (
+              <ListItem key={arrays[index]} style={style} selected={true}>
+                <Button value={index} name={arrays[index]} fullWidth={true}
+                  onClick={(e) => props.onListNameButtonUsersChange(e)}>
+                  {arrays[index]}
+                </Button>
+              </ListItem>
+            )
+          }else{
+            row = (
+              <ListItem key={arrays[index]} style={style}>
+                <Button value={index} name={arrays[index]} fullWidth={true}
+                  onClick={(e) => props.onListNameButtonUsersChange(e)}>
+                  {arrays[index]}
+                </Button>
+              </ListItem>
+            )
+          }
+        }else{
+          row = (
+            <ListItem key={arrays[index]} style={style}>
+              <Button value={index} name={arrays[index]} fullWidth={true}
+                onClick={(e) => props.onListNameButtonUsersChange(e)}>
+                {arrays[index]}
+              </Button>
+            </ListItem>
+          )
+        }
       }
     }else{
       row = (
@@ -47,7 +70,7 @@ const ListNameButtons = (props) => {
   
   // 要レスポンシブ対応
   return (
-    <FixedSizeList height={600} width={320} itemSize={50} itemCount={arrays.length}>
+    <FixedSizeList height={600} width={"auto"} itemSize={50} itemCount={arrays.length}>
       {Row}
     </FixedSizeList>
   );
