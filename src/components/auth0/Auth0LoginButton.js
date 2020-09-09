@@ -1,5 +1,5 @@
 import React from 'react';
-import awsconfig from '../../aws-exports';
+import awsconfig from '../../aws-exports-custom';
 import Amplify, { Auth } from "aws-amplify";
 import { Button } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';

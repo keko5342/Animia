@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from "aws-amplify-react";
-import awsconfig from '../../aws-exports';
+import awsconfig from '../../aws-exports-custom';
 import Amplify from "aws-amplify";
 Amplify.configure(awsconfig);
 

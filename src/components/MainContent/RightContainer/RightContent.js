@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { API_URL } from '../../../config';
-import awsconfig from '../../../aws-exports';
+import awsconfig from '../../../aws-exports-custom';
 import Amplify, { Auth } from "aws-amplify";
 Amplify.configure(awsconfig);
 

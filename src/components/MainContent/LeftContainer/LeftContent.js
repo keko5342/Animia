@@ -12,7 +12,7 @@ import { UsersListContainer, UsersListHeader } from './Styles';
 import useListName from '../../../functions/useListName';
 import { useState, useEffect } from 'react';
 import { API_URL } from '../../../config';
-import awsconfig from '../../../aws-exports';
+import awsconfig from '../../../aws-exports-custom';
 import Amplify, { Auth } from "aws-amplify";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';

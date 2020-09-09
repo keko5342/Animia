@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_URL } from '../config';
-import awsconfig from '../aws-exports';
+import awsconfig from '../aws-exports-custom';
 import Amplify, { Auth } from "aws-amplify";
 Amplify.configure(awsconfig);
 
