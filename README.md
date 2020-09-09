@@ -1,13 +1,53 @@
-# 使用パッケージ
-- gitsecrets
-- react-responsive(https://qiita.com/computer-penguin/items/ebe033d5f93cf9571f3c)
-- react-router(https://qiita.com/y_kawase/items/8f1b5a303400a09c4923)
+# 概要
+本ツール『Animia』は自作ソフトウェア『listManager』を発展させたWebアプリです。
+大学生時代にコミックマーケットのサークルチェックのために、Twitterのリスト機能を利用してイラストレータを管理している友人から
+「リスト内のユーザが多くなってしまって困っているので整理したい」という要望を受け、リストを整理するソフトウェアの制作に取り組んだのがきっかけです。
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+現在は友人の1人に使ってもらうだけでなく、多くの方々の要望にマッチしたサービスを作るために開発を続けています。
+Twitterを使ってイラストを検索する人，エゴサーチを行う人，新しいクリエイターと出会いたい人の一助になるべく頑張っています。
 
-## Available Scripts
+このツールでは以下のことができます。
+  1. Twitterへのログイン
+  2. ユーザが保持しているリストの参照
+  3. リスト内ユーザが投稿した画像の参照
+  4. (実装予定)検索ワードによるユーザの検索
+  5. (実装予定)ユーザをリストに追加／削除
+  6. (実装予定)お気に入りユーザの設定
+  7. (実装予定)人気のユーザのレコメンド
 
-In the project directory, you can run:
+現時点では保持しているリスト内ユーザの画像を見るくらいしかできませんが、今後はもっと機能を拡張していきます。
+※本ツールの使用にはTwitterアカウントが必要です。
+
+# 技術
+フロント：JavaScript(React.js)
+バックエンド：Node.js(Express)
+
+ホスティング：AWS Amplify(フロントサーバ), AWS LightSail(バックエンドAPIサーバ)
+認証：AWS Cognito, Auth0
+コード管理：git, gitHub, gitSecrets, amplify-cli
+
+## フロント
+フロントエンドでは、JavaScriptのReactフレームワークを使って開発をしています。
+構成は以下のようになっています。
+src
+|---App.js(メイン)
+|---components(App.jsが間接的に呼び出すコンポーネント群)
+    |---auth0(認証の際に利用するコンポーネント群)
+    |---MainContent(ログイン後のコンテンツを表示するコンポーネント群)
+        |---LeftContainer(コンテンツの左側メニューを構成するコンポーネント群)
+        |---RightContainer(コンテンツの右側コンテンツを構成するコンポーネント群)
+|---functions(コンポーネントが利用するstate群)
+
+ポイント！
+DOMのスタイル指定にはmaterial-uiを使用しています。
+React-Hooksを用いた関数コンポーネントを採用しているため、stateの管理をコンポーネントの中から切り離して管理することのできるモダンなReactコードです。
+もしも描画コンテンツが多くなってしまった場合に備え、material-uiのFixedSizeListコンポーネントを採用しました。このコンポーネントはリスト内のすべてのコンテンツをプリロードするのではなく、スクロール時に順次読み出しすることでコンテンツが多くなってもスムーズに表示することができるコンポーネントです。
+
+## バックエンド
+バックエンドでは、Node.jsを採用しました。フレームワークとしてExpressを採用しています。
+こちらに関しては別リポジトリで管理しておりますので⇒（）のURLを参照してください。
+
+## ホスティング
 
 ### `yarn start`
 
