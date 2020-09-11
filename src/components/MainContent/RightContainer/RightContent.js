@@ -9,18 +9,15 @@ import Amplify, { Auth } from "aws-amplify";
 Amplify.configure(awsconfig);
 
 const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-  },
   gridList: {
+    maxHeight: "100%",
+    maxWidth: "100%",
     width: "auto",
     height: "100%",
   },
   tileClass: {
     maxHeight: "100%",
+    maxWidth: "100%",
   }
 });
 
@@ -37,12 +34,12 @@ const RightContent = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     test() {
       if(props.User){
-        console.log(props.User)
+        //console.log(props.User)
         authInfo().then((value) => {
           if(value){
             fetch(`${API_URL}/auth/search?id_token=${value}&q=from:${props.User[1]}`)
               .then(res => res.json().then(data => {
-                console.log("res", data);
+                //console.log("res", data);
                 setUrl(data);
               }))
           }
