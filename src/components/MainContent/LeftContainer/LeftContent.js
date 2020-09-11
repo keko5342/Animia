@@ -21,8 +21,8 @@ Amplify.configure(awsconfig);
 
 function sortArray(array){
   array.sort(function(a, b) {
-    var nameA = a.toUpperCase(); // 大文字と小文字を無視する
-    var nameB = b.toUpperCase(); // 大文字と小文字を無視する
+    var nameA = a[0].toUpperCase(); // 大文字と小文字を無視する
+    var nameB = b[0].toUpperCase(); // 大文字と小文字を無視する
     if (nameA < nameB) {
       return -1;
     }
@@ -49,9 +49,8 @@ const LeftContent = (props) => {
   const [SelectedList, setSelectedList] = useState();
   const [Users, setUsers] = useState([]);
   const [UserArray, setUserArray] = useState([]);
-
-  // ここかえる
-  var searchArray = userListName.map(function(value, index) { return value[0]; })
+  const [ComboBoxUserArray, setComboBoxUserArray] = useState([]);
+  var searchArray = userListName.map(function(value, index) { return value[0]; });
   var listArray = sortArray(userListName.map(function(value, index) { return value[0]; }));
 
   // リストが選択されると、APIサーバにリスト内ユーザをリクエストする
@@ -61,9 +60,12 @@ const LeftContent = (props) => {
         if(value){
           fetch(`${API_URL}/auth/users?id_token=${value}&slug=${SelectedList[1]}&owner_screen_name=${SelectedList[2]}`)
             .then(res => res.json().then(data => {
-              var userArray = sortArray(data.map(function(value, index) { return `${value[0]}(@${value[1]})`; }))
-              userArray.unshift(SelectedList[0])
-              setUserArray(userArray)
+              var userArray = sortArray(data.map(function(value, index) { return [`${value[0]}(@${value[1]})`, value[2]]; }))
+              userArray.unshift(SelectedList[0]);
+              var comboBoxUserArray = sortArray(data.map(function(value, index) { return `${value[0]}(@${value[1]})`; }))
+              comboBoxUserArray.unshift(SelectedList[0]);
+              setUserArray(userArray);
+              setComboBoxUserArray(comboBoxUserArray);
               setUsers(data);
             }))
         }
@@ -98,9 +100,9 @@ const LeftContent = (props) => {
     var array = Users.map(function(value, index) { return value[1]; })
     props.onClickUser(
       Users[array.indexOf(
-        UserArray[e.currentTarget.value].substring(
-          UserArray[e.currentTarget.value].lastIndexOf("(") + 2, 
-          UserArray[e.currentTarget.value].lastIndexOf(")")
+        UserArray[e.currentTarget.value][0].substring(
+          UserArray[e.currentTarget.value][0].lastIndexOf("(") + 2, 
+          UserArray[e.currentTarget.value][0].lastIndexOf(")")
         )
       )]
     )
@@ -113,7 +115,7 @@ const LeftContent = (props) => {
         id="searchBox"
         options={
           isSelect 
-          ? UserArray
+          ? ComboBoxUserArray
           : listArray
         }
         clearOnEscape={true}

@@ -1,10 +1,23 @@
 import React from 'react';
 import { FixedSizeList } from 'react-window';
-import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button';
+import { ListItem, ListItemAvatar, Button, Avatar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+const useStyles = makeStyles({
+  alignItemsFlexStart: {
+    alignItems: "start",
+  },
+  fullWidth: {
+    justifyContent: "space-between",
+    justifyItems: "space-between",
+    justifySelf: "space-between",
+    textAlign: "left",
+  },
+});
+
 const ListNameButtons = (props) => {
+  const classes = useStyles();
   var arrays = props.arrays;
 
   const Row = ({ index, style }) => {
@@ -13,7 +26,7 @@ const ListNameButtons = (props) => {
     if(props.listSelected){
       if(index===0){
         row = (
-          <ListItem key={arrays[index]} style={style}>
+          <ListItem key={arrays[index]} style={style} >
             <ArrowBackIcon onClick={(e) => props.onListNameButtonChange(e)} />
             <Button value={index} name={arrays[index]} fullWidth={true}
               onClick={(e) => props.onListNameButtonChange(e)}>
@@ -26,19 +39,25 @@ const ListNameButtons = (props) => {
           var str = String(`${props.User[0]}(@${props.User[1]})`)
           if(str === arrays[index]){
             row = (
-              <ListItem key={arrays[index]} style={style} selected={true}>
-                <Button value={index} name={arrays[index]} fullWidth={true}
+              <ListItem key={arrays[index]} style={style} >
+                <ListItemAvatar>
+                  <Avatar alt={arrays[index][0]} src={arrays[index][1]} />
+                </ListItemAvatar>
+                <Button value={index} name={arrays[index]} fullWidth={true} classes={{fullWidth: classes.fullWidth}} label="Primary" primary={true}
                   onClick={(e) => props.onListNameButtonUsersChange(e)}>
-                  {arrays[index]}
+                  {arrays[index][0]}
                 </Button>
               </ListItem>
             )
           }else{
             row = (
-              <ListItem key={arrays[index]} style={style}>
-                <Button value={index} name={arrays[index]} fullWidth={true}
+              <ListItem key={arrays[index]} style={style} >
+                <ListItemAvatar>
+                  <Avatar alt={arrays[index][0]} src={arrays[index][1]} />
+                </ListItemAvatar>
+                <Button value={index} name={arrays[index]} fullWidth={true} classes={{fullWidth: classes.fullWidth}} label="Primary" primary={true}
                   onClick={(e) => props.onListNameButtonUsersChange(e)}>
-                  {arrays[index]}
+                  {arrays[index][0]}
                 </Button>
               </ListItem>
             )
@@ -46,9 +65,12 @@ const ListNameButtons = (props) => {
         }else{
           row = (
             <ListItem key={arrays[index]} style={style}>
-              <Button value={index} name={arrays[index]} fullWidth={true}
+              <ListItemAvatar>
+                <Avatar alt={arrays[index][0]} src={arrays[index][1]} />
+              </ListItemAvatar>
+              <Button value={index} name={arrays[index]} fullWidth={true} classes={{fullWidth: classes.fullWidth}} label="Primary" primary={true}
                 onClick={(e) => props.onListNameButtonUsersChange(e)}>
-                {arrays[index]}
+                {arrays[index][0]}
               </Button>
             </ListItem>
           )
