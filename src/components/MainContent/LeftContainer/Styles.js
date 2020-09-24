@@ -6,8 +6,12 @@ export const LeftContainer = styled.div`
   flex-direction: column;
   border: solid;
   border-width: 1px;
-  height: 99.8vh;
+  max-width: 100vw;
+  width: 400px;
+  height: auto;
 `;
+//  height: 99.8vh;
+
 
 export const UserProfileContainer = styled.div`
   display: flex;

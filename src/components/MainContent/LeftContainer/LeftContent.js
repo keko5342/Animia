@@ -83,6 +83,7 @@ const LeftContent = (props) => {
             value.substring(value.lastIndexOf("(") + 2, value.lastIndexOf(")"))
           )]
         )
+        props.handleMenuOpenChange();
       }else{
         setIsSelect(!isSelect)
         setSelectedList(userListName[searchArray.indexOf(value)]);
@@ -106,6 +107,7 @@ const LeftContent = (props) => {
         )
       )]
     )
+    props.handleMenuOpenChange();
   }
 
   return (
