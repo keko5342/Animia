@@ -51,11 +51,13 @@ const ColumnBottom = styled.div`
 
 const CatchCopy = styled.img`
   max-Width: 30vw;
+  max-Height: 60vh;
   pointer-events: none;
 `;
 
 const CenterPhoto = styled.img`
   max-Width: 60vw;
+  max-Height: 40vh;
   pointer-events: none;
 `;
 
