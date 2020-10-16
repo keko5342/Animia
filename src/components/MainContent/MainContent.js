@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import LeftContent from './LeftContainer/LeftContent';
 import RightContent from './RightContainer/RightContent';
 import styled from 'styled-components';
-import Logo from './Animia.png';
+import Logo from '../assets/Animia.png';
 
 const useStyles = makeStyles({
   root: {
@@ -29,17 +29,26 @@ const LogoPhoto = styled.img`
   pointer-events: none;
 `;
 
+const Container = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;
+
 const MainContent = () =>{
   const classes = useStyles();
+  const ResultComponent = useRef();
   const [SelectedUser, setSelectedUser] = useState();
   const [MenuOpen, setMenuOpen] = useState(false);
-  const ResultComponent = useRef();
+  const [IsUserSelected, setIsUserSelected] = useState(false);
 
   useEffect(() => {
     ResultComponent.current.test()
   }, [SelectedUser])
 
   function onClickUserCallback(user){
+    setIsUserSelected(true)
     setSelectedUser(user)
   }
 
@@ -75,16 +84,9 @@ const MainContent = () =>{
         </IconButton>
         <LeftContent onClickUser={onClickUserCallback} User={SelectedUser} handleMenuOpenChange={handleMenuOpenChange} />
       </Drawer>
-      <RightContent ref={ResultComponent} User={SelectedUser} />
+      <RightContent ref={ResultComponent} User={SelectedUser} IsVisible={IsUserSelected} />
     </Container>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-`;
 
 export default MainContent;

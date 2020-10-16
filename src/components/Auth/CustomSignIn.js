@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { AppBar, Toolbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import Auth0LoginButton from './auth0/Auth0LoginButton';
-import Logo from './Animia.png';
-import Text from './text.png';
-import CenterImage from './Center2.png';
+import Auth0LoginButton from './Auth0LoginButton';
+import Logo from '../assets/Animia.png';
+import Text from '../assets/text.png';
+import CenterImage from '../assets/Center.png';
 
 const useStyles = makeStyles({
   root: {
